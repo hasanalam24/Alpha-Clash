@@ -24,10 +24,13 @@ function handleKeyboardButtonPress(event) {
 
     // check matched or not
     if (playerPressed === expectedAlphabet) {
-        console.log('you win')
+        console.log('you got a point');
+        console.log('you haave pressed correctly', expectedAlphabet);
+        removeBackgroundColorById(expectedAlphabet)
+        continueGame();
     }
     else {
-        console.log('your missed . and you loss a life')
+        console.log('dhur vaiya ..right key press koro')
     }
 }
 
@@ -40,7 +43,7 @@ function continueGame() {
     //step-1: generate a random alphabet
     const alphabet = getARandomAlphabet();
 
-    console.log('your', alphabet);
+    // console.log('your', alphabet);
 
     // set randomly generated alphabet to the screen (show it)
 
