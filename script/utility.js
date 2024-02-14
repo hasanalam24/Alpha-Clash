@@ -19,6 +19,26 @@ function removeBackgroundColorById(elementId) {
     element.classList.remove('bg-orange-400')
 }
 
+
+function getTextElementValueById(elementId) {
+    const element = document.getElementById(elementId);
+    const elementValueText = element.innerText;
+    const value = parseInt(elementValueText)
+    return value;
+}
+
+function setTextElementValueById(elementId, value) {
+    const element = document.getElementById(elementId);
+    element.innerText = value;
+}
+
+function getElementTextById(elementId) {
+    const element = document.getElementById(elementId);
+    const text = element.innerText;
+    return text;
+}
+
+
 // alphabets string korar por ekhane ashci
 
 function getARandomAlphabet() {

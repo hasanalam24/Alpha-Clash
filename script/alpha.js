@@ -14,6 +14,11 @@ function handleKeyboardButtonPress(event) {
     const playerPressed = event.key;
     // console.log('player Pressed', playerPressed);
 
+    // stop the game if pressed 'Esc'
+    if (playerPressed === 'Escape') {
+        gameOver()
+    }
+
     // get the expected to press
     const currentAlphabetElement = document.getElementById('current-alphabet');
     const currentAlphabet = currentAlphabetElement.innerText;
@@ -25,32 +30,52 @@ function handleKeyboardButtonPress(event) {
     // check matched or not
     if (playerPressed === expectedAlphabet) {
         console.log('you got a point');
+
+        const currentScore = getTextElementValueById('current-score');
+        // console.log(currentScore)
+        const updatedScore = currentScore + 1;
+        setTextElementValueById('current-score', updatedScore)
+
+
+        // _______________________________
         // update score_________
         // 1. get the current score
-        const currentScoreElement = document.getElementById('current-score');
-        const currentScoreText = currentScoreElement.innerText;
-        const currentScore = parseInt(currentScoreText);
+        // const currentScoreElement = document.getElementById('current-score');
+        // const currentScoreText = currentScoreElement.innerText;
+        // const currentScore = parseInt(currentScoreText);
 
-        // 2. increase the score by 1
-        const newScore = currentScore + 1;
-        // 3. show the updates score
-        currentScoreElement.innerText = newScore;
+        // // 2. increase the score by 1
+        // const newScore = currentScore + 1;
+        // // 3. show the updates score
+        // currentScoreElement.innerText = newScore;
         // start a new round
         removeBackgroundColorById(expectedAlphabet)
         continueGame();
     }
     else {
         console.log('dhur vaiya ..right key press koro')
+
+        const currentLife = getTextElementValueById('current-life');
+        const updatedLife = currentLife - 1;
+        setTextElementValueById('current-life', updatedLife);
+
+        if (updatedLife === 0) {
+            // console.log('game over')
+            gameOver();
+
+        }
+
+        // ________________________________
         //step-1: get the current life number
-        const currentLifeElement = document.getElementById('current-life');
-        const currentLifeText = currentLifeElement.innerText;
-        const currentLife = parseInt(currentLifeText);
+        // const currentLifeElement = document.getElementById('current-life');
+        // const currentLifeText = currentLifeElement.innerText;
+        // const currentLife = parseInt(currentLifeText);
 
-        //step-2: reduce the life count
-        const newLife = currentLife - 1;
+        // //step-2: reduce the life count
+        // const newLife = currentLife - 1;
 
-        // step-3: display the updates life count
-        currentLifeElement.innerText = newLife;
+        // // step-3: display the updates life count
+        // currentLifeElement.innerText = newLife;
     }
 }
 
@@ -79,7 +104,30 @@ function continueGame() {
 
 // eta 1st korsi
 function play() {
+    // hide everything show only the playground
     hideElementById('home-screen');
+    hideElementById('final-score');
     showElementById('play-ground');
+
+    // reset score and life
+    setTextElementValueById('current-life', 5)
+    setTextElementValueById('current-score', 0)
+
+
     continueGame()
 }
+
+function gameOver() {
+    hideElementById('play-ground')
+    showElementById('final-score');
+
+    // update final score
+    // 1. get the final score
+    const lastScore = getTextElementValueById('current-score');
+    setTextElementValueById('last-score', lastScore)
+
+    // clear the last selected alphabet bg
+    const currentAlphabet = getElementTextById('current-alphabet')
+    removeBackgroundColorById(currentAlphabet)
+}
+
