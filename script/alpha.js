@@ -8,9 +8,16 @@
 //     const playgroundSection = document.getElementById('play-ground');
 //     playgroundSection.classList.remove('hidden')
 // }
+const audio = new Audio()
 
+let isGamePlayOn = false;
+
+const artBoard = document.getElementById('art-board');
+
+const modalBox = document.getElementById('modal-box')
 
 function handleKeyboardButtonPress(event) {
+    if (isGamePlayOn == false) return;
     const playerPressed = event.key;
     // console.log('player Pressed', playerPressed);
 
@@ -27,9 +34,14 @@ function handleKeyboardButtonPress(event) {
     // console.log(playerPressed, expectedAlphabet)
 
 
+
+
     // check matched or not
     if (playerPressed === expectedAlphabet) {
         console.log('you got a point');
+
+        audio.src = "audio/success-1-6297.mp3"
+        audio.play()
 
         const currentScore = getTextElementValueById('current-score');
         // console.log(currentScore)
@@ -55,8 +67,19 @@ function handleKeyboardButtonPress(event) {
     else {
         console.log('dhur vaiya ..right key press koro')
 
+        audio.src = "audio/failure-drum-sound-effect-2-7184.mp3"
+        audio.play()
+
+
+
         const currentLife = getTextElementValueById('current-life');
         const updatedLife = currentLife - 1;
+
+        // bonus-29.5 module reward 2
+        const updatedLifePercentage = (updatedLife / 5) * 100;
+
+        artBoard.style.background = `linear-gradient(#FFFFFFB3 ${updatedLifePercentage}%,red)`
+
         setTextElementValueById('current-life', updatedLife);
 
         if (updatedLife === 0) {
@@ -113,8 +136,9 @@ function play() {
     setTextElementValueById('current-life', 5)
     setTextElementValueById('current-score', 0)
 
-
+    isGamePlayOn = true;
     continueGame()
+
 }
 
 function gameOver() {
@@ -129,5 +153,21 @@ function gameOver() {
     // clear the last selected alphabet bg
     const currentAlphabet = getElementTextById('current-alphabet')
     removeBackgroundColorById(currentAlphabet)
+    isGamePlayOn = false;
+
+    artBoard.style.background = 'linear-gradient(#FFFFFFB3 100%,red)'
 }
 
+
+function modalOpen(event) {
+    // console.log(event)
+    if (event.clientY < 30) {
+        modalBox.style.display = 'flex'
+    }
+}
+
+function modalClose() {
+    modalBox.style.display = 'none'
+}
+
+document.body.onmousemove = modalOpen;
